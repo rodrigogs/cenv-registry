@@ -1,0 +1,12 @@
+{
+  "name": "cenv-registry",
+  "version": "1.0.0",
+  "description": "apidoc example project",
+  "title": "Custom apiDoc browser title",
+  "url" : "http://localhost:3000",
+  "sampleUrl": "http://localhost:3000",
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}
