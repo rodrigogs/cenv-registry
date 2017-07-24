@@ -39,6 +39,46 @@ const UserController = {
   },
 
   /**
+   * @api {get} /v1/user/:id Find user by id
+   * @apiVersion 1.0.0
+   * @apiName GetUser
+   * @apiGroup User
+   * @apiPermission user
+   *
+   * @apiDescription Finds an user by its id.
+   *
+   * @apiExample Example usage:
+   * curl -X GET http://localhost:3000/v1/user/597168b5f780cc3a48cf6215
+   *
+   * @apiParam    {String}    name          User name.
+   * @apiParam    {String}    username      User username.
+   * @apiParam    {String}    password      User password.
+   * @apiParam    {Boolean}   isAdmin       User is admin.
+   * @apiParam    {String[]}  environments  User environments.
+   *
+   * @apiSuccess  {String}  _id             User id.
+   * @apiSuccess  {String}  name            User name.
+   * @apiSuccess  {String}  username        User username.
+   * @apiSuccess  {String}  password        User password.
+   * @apiSuccess  {Boolean} isAdmin         User is admin.
+   * @apiSuccess  {String}  environments    User environments.
+   * @apiSuccess  {String}  creation_date   User creation date.
+   */
+  findById: async (req, res, next) => {
+    debug('find user by id');
+
+    const { id } = req.params;
+
+    try {
+      UserService.validateUserSession(req, id);
+      const user = await UserService.findById(id);
+      res.status(200).send(user);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
    * @api {post} /v1/user/ Create user
    * @apiVersion 1.0.0
    * @apiName CreateUser
@@ -85,7 +125,7 @@ const UserController = {
    * @apiVersion 1.0.0
    * @apiName UpdateUser
    * @apiGroup User
-   * @apiPermission admin
+   * @apiPermission user
    *
    * @apiDescription Updates an user.
    *
@@ -107,6 +147,7 @@ const UserController = {
       if (body.environments && _.isString(body.environments)) {
         body.environments = body.environments.split(',');
       }
+      UserService.validateUserSession(req, params.id);
       const user = await UserService.update(params.id, body);
       res.status(200).send(user);
     } catch (err) {
@@ -119,7 +160,7 @@ const UserController = {
    * @apiVersion 1.0.0
    * @apiName DeleteUser
    * @apiGroup User
-   * @apiPermission admin
+   * @apiPermission user
    *
    * @apiDescription Deletes an user.
    *
@@ -134,6 +175,7 @@ const UserController = {
     const { params } = req;
 
     try {
+      UserService.validateUserSession(req, params.id);
       await UserService.delete(params.id);
       res.sendStatus(204);
     } catch (err) {
@@ -141,6 +183,34 @@ const UserController = {
     }
   },
 
+  /**
+   * @api {delete} /v1/user/:id/environments Get user environments
+   * @apiVersion 1.0.0
+   * @apiName GetUserEnvironments
+   * @apiGroup User
+   * @apiPermission user
+   *
+   * @apiDescription Get user environments.
+   *
+   * @apiParam {String} id User id.
+   *
+   * @apiExample Example usage:
+   * curl -X GET http://localhost:3000/v1/user/12345/environments
+   */
+  environments: async (req, res, next) => {
+    debug('delete action');
+
+    const { params } = req;
+
+    try {
+      UserService.validateUserSession(req, params.id);
+      const user = await UserService.findById(params.id);
+      const environments = await user.populate('environments').execPopulate();
+      res.status(200).send(environments);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = UserController;

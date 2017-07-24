@@ -1,6 +1,7 @@
 const debug = require('debug')('app:services:v1:user');
 const _ = require('lodash');
 
+const UnauthorizedError = require('../../errors/unauthorized');
 const NotFoundError = require('../../errors/notFound');
 const User = require('../../models/v1/user');
 
@@ -81,6 +82,17 @@ const UserService = {
     debug(`deleting user "${id}"`);
 
     return User.remove({ _id: id }).exec();
+  },
+
+  /**
+   *
+   * @param {Object} req
+   * @param {String} id
+   */
+  validateUserSession: (req, id) => {
+    if (!req.user.isAdmin && req.user.id !== id) {
+      throw new UnauthorizedError('Current action can only be performed to the authenticated user or by an administrator');
+    }
   },
 
 };

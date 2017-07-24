@@ -15,6 +15,11 @@ const EnvironmentSchema = new Schema({
     type: ObjectId,
     ref: 'Variable',
   }],
+  created_by: {
+    type: ObjectId,
+    ref: 'User',
+    required: [true, 'Environment [created_by] field is required'],
+  },
   creation_date: {
     type: Date,
     default: new Date(),

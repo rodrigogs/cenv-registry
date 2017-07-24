@@ -30,6 +30,38 @@ const EnvironmentController = {
   },
 
   /**
+   * @api {get} /v1/environment/:environment Find environment by name
+   * @apiVersion 1.0.0
+   * @apiName GetEnvironment
+   * @apiGroup Environment
+   * @apiPermission user
+   *
+   * @apiDescription Finds an environment by its name.
+   *
+   * @apiExample Example usage:
+   * curl -i http://localhost:3000/v1/environment/myenv
+   *
+   * @apiSuccess {String}   _id             Environment id.
+   * @apiSuccess {String}   name            Environment name.
+   * @apiSuccess {Object}   created_by      Environment creator.
+   * @apiSuccess {String}   creation_date   Environment creation date.
+   * @apiSuccess {Object[]} variables       Array with the environment variables.
+   */
+  findByName: async (req, res, next) => {
+    debug('find environment by name');
+
+    const { params } = req;
+
+    try {
+      EnvironmentService.validateUserRead(req, params.environment);
+      const environment = await EnvironmentService.findByName(params.environment);
+      res.status(200).send(environment);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /**
    * @api {get} /v1/environment/:environment List environment variables
    * @apiVersion 1.0.0
    * @apiName ListEnvironmentVars
@@ -51,6 +83,7 @@ const EnvironmentController = {
     const { params } = req;
 
     try {
+      EnvironmentService.validateUserRead(req, params.environment);
       const environment = await EnvironmentService.findByName(params.environment);
       res.status(200).send(environment.variables);
     } catch (err) {
@@ -72,16 +105,17 @@ const EnvironmentController = {
    *
    * @apiSuccess {String}   _id             Environment id.
    * @apiSuccess {String}   name            Environment name.
+   * @apiSuccess {Object}   created_by      Environment creator.
    * @apiSuccess {String}   creation_date   Environment creation date.
    * @apiSuccess {Object[]} variables       Array with the environment variables.
    */
   create: async (req, res, next) => {
     debug('create action');
 
-    const { body } = req;
+    const { user, body } = req;
 
     try {
-      const env = await EnvironmentService.create({ name: body.name });
+      const env = await EnvironmentService.create({ name: body.name, created_by: user });
       res.status(200).send(env);
     } catch (err) {
       next(err);
@@ -108,6 +142,7 @@ const EnvironmentController = {
     const { params, body } = req;
 
     try {
+      EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService.update(params.environment, body);
       res.status(200).send(env);
     } catch (err) {
@@ -135,6 +170,7 @@ const EnvironmentController = {
     const { params } = req;
 
     try {
+      EnvironmentService.validateUserWrite(req, params.environment);
       await EnvironmentService.delete(params.environment);
       res.sendStatus(204);
     } catch (err) {
@@ -163,6 +199,7 @@ const EnvironmentController = {
     const { params } = req;
 
     try {
+      EnvironmentService.validateUserRead(req, params.environment);
       const env = await EnvironmentService.getVar(params.environment, params.variable);
       res.status(200).send(env);
     } catch (err) {
@@ -190,6 +227,7 @@ const EnvironmentController = {
     const { params, body } = req;
 
     try {
+      EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService.createVar(params.environment, body.name, body.value);
       res.status(200).send(env);
     } catch (err) {
@@ -218,6 +256,7 @@ const EnvironmentController = {
     const { params, body } = req;
 
     try {
+      EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService
         .updateVar(params.environment, params.variable, body.value);
       res.status(200).send(env);
@@ -247,6 +286,7 @@ const EnvironmentController = {
     const { params } = req;
 
     try {
+      EnvironmentService.validateUserWrite(req, params.environment);
       await EnvironmentService.deleteVar(params.environment, params.variable);
       res.sendStatus(204);
     } catch (err) {

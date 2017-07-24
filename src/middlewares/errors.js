@@ -19,6 +19,10 @@ const ErrorHandlerMiddleware = {
     if (env.NODE_ENV !== 'development') delete err.stack;
     logger.error(err);
 
+    if (err.name === 'ValidationError' && err.errors) {
+      err.message = err.toString();
+    }
+
     res
       .status(err.status || 500)
       .send({ error: err.message });

@@ -11,15 +11,18 @@ const EnvironmentController = require('../../controllers/v1/environment');
 router.use(AuthMiddleware.isAuthenticated);
 
 router.route('/')
-  .get(EnvironmentController.list)
+  .get(AuthMiddleware.isAdmin, EnvironmentController.list)
   .post(EnvironmentController.create);
 
 router.route('/:environment')
-  .get(EnvironmentController.vars)
+  .get(EnvironmentController.findByName)
   .put(EnvironmentController.update)
   .delete(EnvironmentController.delete);
 
-router.route('/:environment/:variable')
+router.route('/:environment/vars')
+  .get(EnvironmentController.vars);
+
+router.route('/:environment/vars/:variable')
   .get(EnvironmentController.getVar)
   .put(EnvironmentController.updateVar)
   .delete(EnvironmentController.deleteVar);

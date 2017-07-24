@@ -1,6 +1,7 @@
 const debug = require('debug')('app:services:v1:environment');
 const _ = require('lodash');
 
+const UnauthorizedError = require('../../errors/unauthorized');
 const NotFoundError = require('../../errors/notFound');
 const Environment = require('../../models/v1/environment');
 const Variable = require('../../models/v1/variable');
@@ -148,6 +149,38 @@ const EnvironmentService = {
     if (!variable) throw new NotFoundError(`Variable "${name}" not found`);
 
     return Variable.remove({ _id: variable._id }).exec();
+  },
+
+  /**
+   *
+   * @param {Object} req
+   * @param {String} environment
+   * @return {Promise.<void>}
+   */
+  validateUserWrite: async (req, environment) => {
+    const { user } = req;
+    environment = await EnvironmentService.findByName(environment);
+
+    if (!user.isAdmin && (environment.created_by._id === user._id)) {
+      throw new UnauthorizedError('Current action can only be performed by the environment creator or by an administrator');
+    }
+  },
+
+  /**
+   *
+   * @param {Object} req
+   * @param {String} environment
+   * @return {Promise.<void>}
+   */
+  validateUserRead: async (req, environment) => {
+    const { user } = req;
+    environment = await EnvironmentService.findByName(environment);
+
+    if (!user.isAdmin
+      && (environment.created_by._id === user._id
+        || _.includes(user.environments, environment._id))) {
+      throw new UnauthorizedError('Current action can only be performed by an environment user or by an administrator');
+    }
   },
 
 };

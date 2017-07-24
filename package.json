@@ -18,13 +18,13 @@
     "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.2",
-    "cors": "^2.8.3",
+    "cors": "^2.8.4",
     "debug": "^2.6.8",
     "express": "~4.15.3",
     "lodash": "^4.17.4",
     "make-dir": "^1.0.0",
-    "mongoose": "^4.10.6",
-    "mongoose-beautiful-unique-validation": "^5.1.1",
+    "mongoose": "^4.11.4",
+    "mongoose-beautiful-unique-validation": "^6.0.0",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
@@ -35,13 +35,16 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
-    "chai": "^4.0.2",
+    "chai": "^4.1.0",
     "dotenv-cli": "^1.4.0",
-    "eslint": "^4.0.0",
+    "eslint": "^4.3.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
-    "nyc": "^11.0.2"
+    "nyc": "^11.0.3"
+  },
+  "engines": {
+    "node": ">=7.6.0"
   }
 }
