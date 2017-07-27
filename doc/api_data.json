@@ -99,6 +99,13 @@
           },
           {
             "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "created_by",
+            "description": "<p>Environment creator.</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "String",
             "optional": false,
             "field": "creation_date",
@@ -165,49 +172,70 @@
   },
   {
     "type": "get",
-    "url": "/v1/environment/:environment/:variable",
-    "title": "Get environment variable",
+    "url": "/v1/environment/:environment",
+    "title": "Find environment by name",
     "version": "1.0.0",
-    "name": "GetVariable",
+    "name": "GetEnvironment",
     "group": "Environment",
     "permission": [
       {
         "name": "user"
       }
     ],
-    "description": "<p>Gets a environment variable.</p>",
-    "parameter": {
+    "description": "<p>Finds an environment by its name.</p>",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i http://localhost:3000/v1/environment/myenv",
+        "type": "json"
+      }
+    ],
+    "success": {
       "fields": {
-        "Parameter": [
+        "Success 200": [
           {
-            "group": "Parameter",
+            "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "environment",
+            "field": "_id",
+            "description": "<p>Environment id.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
             "description": "<p>Environment name.</p>"
           },
           {
-            "group": "Parameter",
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "created_by",
+            "description": "<p>Environment creator.</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "variable",
-            "description": "<p>Variable name.</p>"
+            "field": "creation_date",
+            "description": "<p>Environment creation date.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "variables",
+            "description": "<p>Array with the environment variables.</p>"
           }
         ]
       }
     },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "curl -i http://localhost:3000/v1/environment/myenv/myvar",
-        "type": "json"
-      }
-    ],
     "filename": "src/controllers/v1/environment.js",
     "groupTitle": "Environment",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/v1/environment/:environment/:variable"
+        "url": "http://localhost:3000/v1/environment/:environment"
       }
     ]
   },
@@ -337,6 +365,54 @@
       {
         "title": "Example usage:",
         "content": "curl -X DELETE http://localhost:3000/v1/environment/myenv/myvar",
+        "type": "json"
+      }
+    ],
+    "filename": "src/controllers/v1/environment.js",
+    "groupTitle": "Environment",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3000/v1/environment/:environment/:variable"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/v1/environment/:environment/:variable",
+    "title": "Get environment variable",
+    "version": "1.0.0",
+    "name": "GetVariable",
+    "group": "Environment",
+    "permission": [
+      {
+        "name": "user"
+      }
+    ],
+    "description": "<p>Gets a environment variable.</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "environment",
+            "description": "<p>Environment name.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "variable",
+            "description": "<p>Variable name.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i http://localhost:3000/v1/environment/myenv/myvar",
         "type": "json"
       }
     ],
@@ -645,7 +721,7 @@
     "group": "User",
     "permission": [
       {
-        "name": "admin"
+        "name": "user"
       }
     ],
     "description": "<p>Deletes an user.</p>",
@@ -674,6 +750,171 @@
     "sampleRequest": [
       {
         "url": "http://localhost:3000/v1/user/:id"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/v1/user/:id",
+    "title": "Find user by id",
+    "version": "1.0.0",
+    "name": "GetUser",
+    "group": "User",
+    "permission": [
+      {
+        "name": "user"
+      }
+    ],
+    "description": "<p>Finds an user by its id.</p>",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -X GET http://localhost:3000/v1/user/597168b5f780cc3a48cf6215",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>User name.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>User username.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>User password.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "isAdmin",
+            "description": "<p>User is admin.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String[]",
+            "optional": false,
+            "field": "environments",
+            "description": "<p>User environments.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>User id.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>User name.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>User username.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>User password.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "isAdmin",
+            "description": "<p>User is admin.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "environments",
+            "description": "<p>User environments.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "creation_date",
+            "description": "<p>User creation date.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/controllers/v1/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3000/v1/user/:id"
+      }
+    ]
+  },
+  {
+    "type": "delete",
+    "url": "/v1/user/:id/environments",
+    "title": "Get user environments",
+    "version": "1.0.0",
+    "name": "GetUserEnvironments",
+    "group": "User",
+    "permission": [
+      {
+        "name": "user"
+      }
+    ],
+    "description": "<p>Get user environments.</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>User id.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -X GET http://localhost:3000/v1/user/12345/environments",
+        "type": "json"
+      }
+    ],
+    "filename": "src/controllers/v1/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3000/v1/user/:id/environments"
       }
     ]
   },
@@ -727,7 +968,7 @@
     "group": "User",
     "permission": [
       {
-        "name": "admin"
+        "name": "user"
       }
     ],
     "description": "<p>Updates an user.</p>",

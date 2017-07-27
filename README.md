@@ -1,5 +1,11 @@
 # cenv-registry
 
+[![Build Status](https://travis-ci.org/rodrigogs/cenv-registry.svg?branch=master)](https://travis-ci.org/rodrigogs/cenv-registry)
+[![Code Climate](https://codeclimate.com/github/rodrigogs/cenv-registry/badges/gpa.svg)](https://codeclimate.com/github/rodrigogs/cenv-registry)
+[![Test Coverage](https://codeclimate.com/github/rodrigogs/cenv-registry/badges/coverage.svg)](https://codeclimate.com/github/rodrigogs/cenv-registry/coverage)
+[![Dependency Status](https://david-dm.org/rodrigogs/cenv-registry/status.svg)](https://david-dm.org/rodrigogs/cenv-registry#info=dependencies)
+[![devDependency Status](https://david-dm.org/rodrigogs/cenv-registry/dev-status.svg)](https://david-dm.org/rodrigogs/cenv-registry#info=devDependencies)
+
 **cenv-registry** implements an api to manage [cenv's](https://github.com/rodrigogs/cenv) environments.
 
 ### Environment variables
