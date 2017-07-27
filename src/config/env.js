@@ -12,6 +12,6 @@ module.exports = {
 
   HTTP_LOG_CONFIG: env('http_log_config') || 'dev',
 
-  MONGO_DB: env('mongodb') || 'mongodb://localhost:27017/cenv',
+  MONGO_DB: env('mongo_db') || 'mongodb://localhost:27017/cenv',
 
 };
