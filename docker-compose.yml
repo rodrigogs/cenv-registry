@@ -1,0 +1,11 @@
+version: '2'
+services:
+  cenv-registry:
+    build: .
+    network_mode: host
+    environment:
+      MONGO_DB: mongodb://localhost:27017/cenv
+
+  mongo:
+    image: mongo
+    network_mode: host
