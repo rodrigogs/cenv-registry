@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  require('@glimpse/glimpse').init();
+}
+
 const debug = require('debug')('app');
 const util = require('util');
 const EventEmitter = require('events');

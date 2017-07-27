@@ -8,11 +8,11 @@ const url = env.MONGO_DB;
 
 debug(`configuring mongoose connection to ${url}`);
 
+mongoose.Promise = Promise;
+
 mongoose.set('debug', env.NODE_ENV !== 'production');
 
-mongoose.connect(url, { server: { reconnectTries: Number.MAX_VALUE } });
-
-mongoose.Promise = Promise;
+mongoose.connect(url, { reconnectTries: Number.MAX_VALUE, useMongoClient: true });
 
 mongoose.connection.on('connected', () => logger.info(`Mongoose default connection open to ${url}`));
 
