@@ -9,6 +9,6 @@ engines:
         enabled: false
 ratings:
   paths:
-  - './src/**'
-  - './bin/**'
-  - './test/**'
+  - 'src/**'
+  - 'bin/**'
+  - 'test/**'
