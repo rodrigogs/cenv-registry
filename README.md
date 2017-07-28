@@ -47,6 +47,7 @@ Production
 
 Test
 ----
+> Currently cenv-registry has only integration tests, so you need to have a running mongodb instance running to pass the tests
 > ```$ npm test```
 or
 > ```$ yarn test```
