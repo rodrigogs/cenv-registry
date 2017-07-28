@@ -1,6 +1,6 @@
 {
   "name": "cenv-registry",
-  "description: "Cloud environment registry",
+  "description": "Cloud environment registry",
   "version": "1.0.0-alpha",
   "license": "BSD-3-Clause",
   "author": {
