@@ -8,7 +8,8 @@
 
 **cenv-registry** implements an api to manage [cenv's](https://github.com/rodrigogs/cenv) environments.
 
-### Environment variables
+Environment variables
+---------------------
 * **NODE_ENV**
   - default: **'development'**
 * **PORT**
@@ -18,12 +19,31 @@
 * **MONGO_DB**
   - default: **mongodb://localhost:27017/cenv**
 
-### Development
+Setup
+-----
+> Node.js **7.6.0** or higer is required
+
+> Download or clone cenv-registry latest release at https://github.com/rodrigogs/cenv-registry/releases
+
+> ```$ npm install```
+or
+> ```$ yarn install```
+
+Development
+-----------
 > Have a mongodb instance running
 
 > ```$ npm start```
 or
 > ```$ yarn start```
+
+Production
+----------
+* Single instance
+  > ```$ NODE_ENV=production node bin/www```
+
+* Cluster
+  > ```$ NODE_ENV=production node bin/fork```
 
 ### License
 [Licence](https://github.com/rodrigogs/cenv-registry/blob/master/LICENSE) © Rodrigo Gomes da Silva
