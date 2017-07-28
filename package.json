@@ -2,7 +2,7 @@
   "name": "cenv-registry",
   "description": "Cloud environment registry",
   "version": "1.0.0-alpha",
-  "repository": "git@github.com:rodrigogs/cenv.git",
+  "repository": "git@github.com:rodrigogs/cenv-registry.git",
   "license": "BSD-3-Clause",
   "author": {
     "name": "Rodrigo Gomes da Silva",
