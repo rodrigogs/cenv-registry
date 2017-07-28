@@ -45,5 +45,12 @@ Production
 * Cluster
   > ```$ NODE_ENV=production node bin/fork```
 
-### License
+Test
+----
+> ```$ npm test```
+or
+> ```$ yarn test```
+
+License
+-------
 [Licence](https://github.com/rodrigogs/cenv-registry/blob/master/LICENSE) © Rodrigo Gomes da Silva
