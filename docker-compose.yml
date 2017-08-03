@@ -10,7 +10,7 @@ services:
     command: node_modules/.bin/nodemon bin/www
     environment:
       NODE_ENV: development
-      PORT: port
+      PORT: 3000
       HTTP_LOG_CONFIG: dev
       MONGO_DB: mongodb://mongo:27017/cenv
     ports:
