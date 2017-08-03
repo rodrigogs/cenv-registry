@@ -5,12 +5,10 @@ debug('configuring routes');
 
 const router = express.Router();
 
-const auth = require('./auth');
-const user = require('./user');
-const environment = require('./environment');
+const getRoute = name => require(`./${name}`);
 
-router.use('/auth', auth);
-router.use('/user', user);
-router.use('/environment', environment);
+router.use('/auth', getRoute('auth'));
+router.use('/user', getRoute('user'));
+router.use('/environment', getRoute('environment'));
 
 module.exports = router;
