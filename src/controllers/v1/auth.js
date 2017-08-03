@@ -25,12 +25,9 @@ const AuthController = {
    */
   token: async (req, res, next) => {
     debug('login action');
-
-    const { username, password } = req.body;
-
-    let token;
     try {
-      token = await AuthService.login(username, password);
+      const { username, password } = req.body;
+      const token = await AuthService.login(username, password);
       res.status(200).send({ token: token.value });
     } catch (ex) {
       next(ex);
