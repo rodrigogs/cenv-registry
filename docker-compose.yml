@@ -2,11 +2,22 @@ version: '3'
 
 services:
   cenv-registry:
-    build: .
-    network_mode: host
+    depends_on:
+      - mongo
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: node_modules/.bin/nodemon bin/www
     environment:
-      MONGO_DB: mongodb://localhost:27017/cenv
+      NODE_ENV: development
+      PORT: port
+      HTTP_LOG_CONFIG: dev
+      MONGO_DB: mongodb://mongo:27017/cenv
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
 
   mongo:
-    image: mongo
-    network_mode: host
+    image: mongo:3.4
+    command: mongod
