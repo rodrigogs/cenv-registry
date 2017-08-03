@@ -1,9 +1,19 @@
-FROM node
+FROM node:8.2.1
 
-ADD . /app
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
-WORKDIR /app
+ENV HOME=/usr/src/app
+
+RUN mkdir -p $HOME
+
+WORKDIR $HOME
+
+COPY package.json yarn.lock $HOME/
 
 RUN yarn install
 
-ENTRYPOINT node ./bin/www
+COPY . $HOME
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]
