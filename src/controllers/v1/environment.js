@@ -49,10 +49,8 @@ const EnvironmentController = {
    */
   findByName: async (req, res, next) => {
     debug('find environment by name');
-
-    const { params } = req;
-
     try {
+      const { params } = req;
       EnvironmentService.validateUserRead(req, params.environment);
       const environment = await EnvironmentService.findByName(params.environment);
       res.status(200).send(environment);
@@ -79,10 +77,8 @@ const EnvironmentController = {
    */
   vars: async (req, res, next) => {
     debug('vars action');
-
-    const { params } = req;
-
     try {
+      const { params } = req;
       EnvironmentService.validateUserRead(req, params.environment);
       const environment = await EnvironmentService.findByName(params.environment);
       res.status(200).send(environment.variables);
@@ -111,10 +107,8 @@ const EnvironmentController = {
    */
   create: async (req, res, next) => {
     debug('create action');
-
-    const { user, body } = req;
-
     try {
+      const { user, body } = req;
       const env = await EnvironmentService.create({ name: body.name, created_by: user });
       res.status(200).send(env);
     } catch (err) {
@@ -138,10 +132,8 @@ const EnvironmentController = {
    */
   update: async (req, res, next) => {
     debug('update action');
-
-    const { params, body } = req;
-
     try {
+      const { params, body } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService.update(params.environment, body);
       res.status(200).send(env);
@@ -166,10 +158,8 @@ const EnvironmentController = {
    */
   delete: async (req, res, next) => {
     debug('delete action');
-
-    const { params } = req;
-
     try {
+      const { params } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       await EnvironmentService.delete(params.environment);
       res.sendStatus(204);
@@ -195,10 +185,8 @@ const EnvironmentController = {
    */
   getVar: async (req, res, next) => {
     debug('getVar action');
-
-    const { params } = req;
-
     try {
+      const { params } = req;
       EnvironmentService.validateUserRead(req, params.environment);
       const env = await EnvironmentService.getVar(params.environment, params.variable);
       res.status(200).send(env);
@@ -223,10 +211,8 @@ const EnvironmentController = {
    */
   createVar: async (req, res, next) => {
     debug('createVar action');
-
-    const { params, body } = req;
-
     try {
+      const { params, body } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService.createVar(params.environment, body.name, body.value);
       res.status(200).send(env);
@@ -252,10 +238,8 @@ const EnvironmentController = {
    */
   updateVar: async (req, res, next) => {
     debug('updateVar action');
-
-    const { params, body } = req;
-
     try {
+      const { params, body } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService
         .updateVar(params.environment, params.variable, body.value);
@@ -282,10 +266,8 @@ const EnvironmentController = {
    */
   deleteVar: async (req, res, next) => {
     debug('deleteVar action');
-
-    const { params } = req;
-
     try {
+      const { params } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       await EnvironmentService.deleteVar(params.environment, params.variable);
       res.sendStatus(204);
