@@ -42,6 +42,8 @@ const EnvironmentService = {
 
     const env = new Environment(body);
     await env.save();
+    env.created_by.hashed_password = undefined;
+    env.created_by.salt = undefined;
     return env;
   },
 
