@@ -17,7 +17,6 @@
     "docs": "apidoc -i src/controllers -o doc/"
   },
   "dependencies": {
-    "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.2",
     "cors": "^2.8.4",
