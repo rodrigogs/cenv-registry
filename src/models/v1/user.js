@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
-const SALT_COMPLEXITY = 10;
 
 const UserSchema = new Schema({
   name: {
@@ -18,9 +17,13 @@ const UserSchema = new Schema({
     required: [true, 'User [username] field is required'],
     unique: 'Given username is already in use',
   },
-  password: {
+  hashed_password: {
     type: String,
     required: [true, 'User [password] field is required'],
+  },
+  salt: {
+    type: String,
+    required: true,
   },
   isAdmin: {
     type: Boolean,
@@ -37,21 +40,17 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', function preSave(next) {
-  const user = this;
-  if (!user.isModified) return next();
+UserSchema.virtual('password')
+  .set(function set(password) {
+    this._plain_password = password;
+    this.salt = crypto.randomBytes(128).toString('base64');
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get(function get() { return this._plain_password; });
 
-  bcrypt.genSalt(SALT_COMPLEXITY, (err, salt) => {
-    if (err) return next(err);
-
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) return next();
-
-      user.password = hash;
-      next();
-    });
-  });
-});
+UserSchema.methods.encryptPassword = function encryptPassword(password) {
+  return crypto.pbkdf2Sync(password, this.salt, 100000, 512, 'sha512').toString('hex');
+};
 
 UserSchema.post('validate', (doc) => {
   if (doc.isNew) {
@@ -59,14 +58,8 @@ UserSchema.post('validate', (doc) => {
   }
 });
 
-UserSchema.methods.comparePassword = function comparePassword(candidatePassword) {
-  const user = this;
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
-      if (err) return reject(err);
-      resolve(isMatch);
-    });
-  });
+UserSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
+  return this.encryptPassword(candidatePassword) === this.hashed_password;
 };
 
 UserSchema.plugin(beautifyUnique);
