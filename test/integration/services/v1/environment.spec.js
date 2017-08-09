@@ -1,10 +1,14 @@
 const chai = require('chai');
-
-chai.should();
+const request = require('supertest');
+const faker = require('faker');
 
 const app = require('../../../../src/app');
 
-const EnvironmentService = require('../../../../src/services/v1/environment');
+const AuthService = require('../../../../src/services/v1/auth');
+
+chai.should();
+
+let token = '';
 
 before((done) => {
   app.on('ready', done);
@@ -13,11 +17,34 @@ before((done) => {
   });
 });
 
-suite('EnvironmentService', () => {
-  suite('#list()', () => {
+beforeEach(async () => {
+  const user = await AuthService.login('admin', 'admin');
+  token = user.value;
+});
+
+suite('Environment', () => {
+  suite('#create', () => {
+    test('should create a new environment', async () => {
+      const envName = faker.random.word();
+      const res = await request(app)
+        .post('/v1/environment')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ name: envName })
+        .expect(200);
+
+      res.body.should.be.an('object');
+      res.body.name.should.be.equal(envName);
+    });
+  });
+
+  suite('#list', () => {
     test('should return an array list with Environments', async () => {
-      const envs = await EnvironmentService.list();
-      envs.should.be.a('array');
+      const res = await request(app)
+        .get('/v1/environment')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
+
+      res.body.should.be.an('array');
     });
   });
 });

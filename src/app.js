@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line import/no-extraneous-dependencies
   require('@glimpse/glimpse').init();
 }
@@ -24,7 +24,7 @@ const app = express();
 app.use(morgan(config.env.HTTP_LOG_CONFIG, { stream: logger.stream }));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.passport.initialize());
 app.use(routes);
 
