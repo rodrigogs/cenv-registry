@@ -58,7 +58,7 @@ UserSchema.post('validate', (doc) => {
   }
 });
 
-UserSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
+UserSchema.methods.comparePassword = function comparePassword(candidatePassword) {
   return this.encryptPassword(candidatePassword) === this.hashed_password;
 };
 
