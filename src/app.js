@@ -28,7 +28,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.passport.initialize());
 app.use(routes);
 
-config.mongoose.then(() => app.emit('ready'));
-config.mongoose.catch(err => app.emit('error', err));
+config.statusHandler(app);
 
 module.exports = app;

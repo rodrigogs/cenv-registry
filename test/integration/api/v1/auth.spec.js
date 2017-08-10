@@ -1,20 +1,15 @@
 const chai = require('chai');
 const request = require('supertest');
 const faker = require('faker');
-const getPort = require('get-port');
 
 chai.should();
 
-let app = null;
+const app = require('../../../../src/app');
 
-before((done) => {
-  getPort().then((port) => {
-    process.env.PORT = port;
-    app = require('../../../../src/app');
-    app.on('ready', done);
-    app.on('error', (err) => {
-      throw err;
-    });
+before(async () => {
+  await new Promise((resolve, reject) => {
+    app.on('ready', resolve);
+    app.on('error', reject);
   });
 });
 

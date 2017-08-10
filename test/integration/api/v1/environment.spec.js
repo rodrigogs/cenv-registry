@@ -1,9 +1,10 @@
 const chai = require('chai');
 const request = require('supertest');
 const faker = require('faker');
-const getPort = require('get-port');
 
 chai.should();
+
+const app = require('../../../../src/app');
 
 // Setup
 let token = '';
@@ -16,16 +17,10 @@ const getToken = async (username = 'admin', password = 'admin') => {
   return res.body.token;
 };
 
-let app = null;
-
-before((done) => {
-  getPort().then((port) => {
-    process.env.PORT = port;
-    app = require('../../../../src/app');
-    app.on('ready', done);
-    app.on('error', (err) => {
-      throw err;
-    });
+before(async () => {
+  await new Promise((resolve, reject) => {
+    app.on('ready', resolve);
+    app.on('error', reject);
   });
 });
 
