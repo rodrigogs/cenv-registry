@@ -110,7 +110,7 @@ const EnvironmentController = {
     try {
       const { user, body } = req;
       const env = await EnvironmentService.create({ name: body.name, created_by: user });
-      res.status(200).send(env);
+      res.status(201).send(env);
     } catch (err) {
       next(err);
     }
@@ -215,7 +215,7 @@ const EnvironmentController = {
       const { params, body } = req;
       EnvironmentService.validateUserWrite(req, params.environment);
       const env = await EnvironmentService.createVar(params.environment, body.name, body.value);
-      res.status(200).send(env);
+      res.status(201).send(env);
     } catch (err) {
       next(err);
     }

@@ -114,7 +114,7 @@ const UserController = {
         body.environments = body.environments.split(',');
       }
       const user = await UserService.create(body);
-      res.status(200).send(user);
+      res.status(201).send(user);
     } catch (err) {
       next(err);
     }
