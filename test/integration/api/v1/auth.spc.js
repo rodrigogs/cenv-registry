@@ -1,15 +1,20 @@
 const chai = require('chai');
 const request = require('supertest');
 const faker = require('faker');
-
-const app = require('../../../../src/app');
+const getPort = require('get-port');
 
 chai.should();
 
+let app = null;
+
 before((done) => {
-  app.on('ready', done);
-  app.on('error', (err) => {
-    throw err;
+  getPort().then((port) => {
+    process.env.PORT = port;
+    app = require('../../../../src/app');
+    app.on('ready', done);
+    app.on('error', (err) => {
+      throw err;
+    });
   });
 });
 
