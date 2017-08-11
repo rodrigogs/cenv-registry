@@ -29,7 +29,7 @@ const handle = (app) => {
   _resolve(app);
 
   app.on('ready', setStatus(STATUSES.READY));
-  app.on('error', setStatus(status = STATUSES.ERR));
+  app.on('error', setStatus(STATUSES.ERR));
 };
 
 module.exports = {

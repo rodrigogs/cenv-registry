@@ -5,6 +5,7 @@ const faker = require('faker');
 chai.should();
 
 const app = require('../../../../src/app');
+const statusHandler = require('../../../../src/config/statusHandler');
 
 // Setup
 let token = '';
@@ -18,6 +19,12 @@ const getToken = async (username = 'admin', password = 'admin') => {
 };
 
 before(async () => {
+  if (statusHandler.getStatus() === statusHandler.STATUSES.READY) {
+    return;
+  }
+  if (statusHandler.getStatus() === statusHandler.STATUSES.ERR) {
+    throw new Error('Application crashed');
+  }
   await new Promise((resolve, reject) => {
     app.on('ready', resolve);
     app.on('error', reject);

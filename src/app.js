@@ -28,6 +28,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.passport.initialize());
 app.use(routes);
 
-config.statusHandler(app);
+config.statusHandler.handle(app);
 
 module.exports = app;
