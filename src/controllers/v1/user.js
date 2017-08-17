@@ -110,8 +110,9 @@ const UserController = {
     const { body } = req;
 
     try {
-      if (body.environments && _.isString(body.environments)) {
-        body.environments = body.environments.split(',');
+      const { environments } = body;
+      if (environments && _.isString(environments)) {
+        body.environments = environments.split(',');
       }
       const user = await UserService.create(body);
       res.status(201).send(user);
@@ -144,8 +145,9 @@ const UserController = {
     const { params, body } = req;
 
     try {
-      if (body.environments && _.isString(body.environments)) {
-        body.environments = body.environments.split(',');
+      const { environments } = body;
+      if (environments && _.isString(environments)) {
+        body.environments = environments.split(',');
       }
       UserService.validateUserSession(req, params.id);
       const user = await UserService.update(params.id, body);
